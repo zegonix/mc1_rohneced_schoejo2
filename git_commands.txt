@@ -1,0 +1,8 @@
+git bash commands
+
+clone:	new repository..
+add:	add new directory or file(s)
+commit:	notify change on dir/file(s)
+push:	upload changes
+pull:	download changes
+
