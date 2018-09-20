@@ -6,3 +6,15 @@ commit:	notify change on dir/file(s)
 push:	upload changes
 pull:	download changes
 
+// ablauf
+lokal aktualisieren:
+	1) git pull
+	
+änderungen aktualisieren:
+	1) git commit ..
+	2) git push
+	
+dateien hinzufügen:
+	1) git add ..
+	2) git commit
+	3) git push
