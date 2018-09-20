@@ -25,7 +25,7 @@
 #define BITMASK_KEY_ALL     0x0F
 
 #define NR_OF_7SEG_DISPLAYS 4u
-#define NR_SAMPLES          25  // set to 50 for stable generic debounce
+#define NR_SAMPLES          40  // set to 50 for stable generic debounce
 
 #define GPIO_P6             (uint16_t)0x0040
 #define GPIO_P3_to_P0       (uint16_t)0x000F
@@ -56,8 +56,7 @@ int main(void)
     /* additional variable definitions go here */
     /// STUDENTS: To be programmed
 
-
-
+		sample_buffer_t sample_buffer;
 
     /// END: To be programmed
 
@@ -102,10 +101,7 @@ int main(void)
             default:
                 /* Task 4.4: Edge detection WITH multiple extension boards */
                 /// STUDENTS: To be programmed
-
-
-
-
+								switch_change = generic_debounce(&sample_buffer, hal_gpio_input_read(GPIOB));
                 /// END: To be programmed
                 break;
         }
@@ -187,9 +183,37 @@ static uint8_t detect_switch_change_debounce(void)
 {
     /// STUDENTS: To be programmed
 
-
-
-
+		static uint8_t switch_samples[NR_SAMPLES];
+		uint8_t switch_change_pos;
+		uint8_t switch_change_neg;
+		uint8_t changing_bits;
+		uint8_t ret_val;
+		uint8_t i;
+		for (i = 0; i<(NR_SAMPLES-1); i++){
+			switch_samples[i] = switch_samples[i+1];
+		}
+		switch_samples[NR_SAMPLES-1] = (uint8_t) hal_gpio_input_read(GPIOB);
+		switch_change_pos = switch_samples[NR_SAMPLES-1];
+		switch_change_neg = ~switch_change_pos;
+		for (i = 0; i<(NR_SAMPLES-1); i++){
+			switch_change_pos &= ~switch_samples[i];
+			switch_change_neg &= switch_samples[i];
+		}
+		
+		changing_bits = switch_change_pos | switch_change_neg;
+		
+    if (changing_bits & BITMASK_KEY_0) {
+        ret_val = 0;
+    } else if (changing_bits & BITMASK_KEY_1) {
+        ret_val = 1;
+    } else if (changing_bits & BITMASK_KEY_2) {
+        ret_val = 2;
+    } else if (changing_bits & BITMASK_KEY_3) {
+        ret_val = 3;
+    } else {
+        ret_val = 0xFF;
+    }
+    return(ret_val);
     /// END: To be programmed
 }
 
@@ -219,9 +243,45 @@ static uint8_t generic_debounce(sample_buffer_t *sample_buffer,
 {
     /// STUDENTS: To be programmed
 
-
-
-
+		uint8_t i;
+		uint8_t edge_pos = new_sample;
+		uint8_t edge_neg = ~new_sample;
+		uint8_t changing_bits;
+		uint8_t ret_val;
+	
+		sample_buffer->samples[sample_buffer->write_index] = new_sample;
+	
+		for (i = 0; i<NR_SAMPLES; i++)
+		{
+			if (i != sample_buffer->write_index)
+			{
+				edge_pos &= ~sample_buffer->samples[i];
+				edge_neg &= sample_buffer->samples[i];
+			}
+		}
+			
+		if (sample_buffer->write_index < NR_SAMPLES-1)
+		{
+			sample_buffer->write_index++;
+		} else {
+			sample_buffer->write_index = 0;
+		}
+	
+		changing_bits = edge_pos | edge_neg;
+		
+    if (changing_bits & BITMASK_KEY_0) {
+        ret_val = 0;
+    } else if (changing_bits & BITMASK_KEY_1) {
+        ret_val = 1;
+    } else if (changing_bits & BITMASK_KEY_2) {
+        ret_val = 2;
+    } else if (changing_bits & BITMASK_KEY_3) {
+        ret_val = 3;
+    } else {
+        ret_val = 0xFF;
+    }
+    return(ret_val);
+		
     /// END: To be programmed
 }
 
