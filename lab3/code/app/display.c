@@ -56,8 +56,11 @@ void disp_reg_new_value(uint8_t value)
 {
     /// STUDENTS: To be programmed
 
-
-
+		uint8_t i;
+		for (i = 0; i<(NUM_OF_DIGITS-1); i++){
+			disp_buf[i] = disp_buf[i+1];
+		}
+		disp_buf[NUM_OF_DIGITS-1] = value;
 
     /// END: To be programmed
 }
@@ -68,9 +71,14 @@ void disp_reg_new_value(uint8_t value)
 void disp_update(void)
 {
     /// STUDENTS: To be programmed
-
-
-
+		
+		uint8_t i;
+		for(i=0;i<NUM_OF_DIGITS;i++)
+		{
+			uint16_t output = ((i<<8)+int2hex[disp_buf[i]]);
+			hal_gpio_output_write(GPIOA,output);
+			hal_gpio_output_write(GPIOA,output | (1<<11));
+		}
 
     /// END: To be programmed
 }
