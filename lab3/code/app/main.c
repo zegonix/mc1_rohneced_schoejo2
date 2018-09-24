@@ -55,6 +55,7 @@ int32_t main(void)
 
 
     while (1) {
+			/*
         mode = inout_switch_read();
         if (mode != prev_mode) {    // mode changed
             prev_mode = mode;
@@ -62,7 +63,7 @@ int32_t main(void)
             disp_update();
             inout_led_write(mode);
         }
- 
+			*/
         /* Depending on the selected mode, display the following information
            on the 7-segment display:
         
@@ -76,25 +77,33 @@ int32_t main(void)
                                     the right.
          */
         /// STUDENTS: To be programmed        
-
+				
+				prev_mode = mode;
 				mode = inout_switch_read();
-				switch (mode){
-					case 0x00:
-						// hardware test
-						for(i=0;i<8;i++)//8 number of 7 segments
-						{
-							disp_reg_new_value(8);
-						}
-						break;
-					case 0x01:
-						// number sequence
-						break;
-					case 0x02:
-						// col by col
-						break;
-					case 0x03:
-						// fast scan
-						break;
+				if(mode != prev_mode)
+				{
+					switch (mode){
+						case 0x00:
+							// hardware test
+							for(i=0;i<8;i++)//8 number of 7 segments
+							{
+								disp_reg_new_value(8);
+							}
+							break;
+						case 0x01:
+							// number sequence
+							for (i=0; i<8; i++)
+							{
+								disp_reg_new_value(i);
+							}
+							break;
+						case 0x02:
+							// col by col
+							break;
+						case 0x03:
+							// fast scan
+							break;
+					}
 				}
 
         /// END: To be programmed        

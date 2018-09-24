@@ -44,8 +44,7 @@ uint8_t scan_keypad_cbc(void)
     uint8_t ret_val = NOKEY_PRESSED;
     /// STUDENTS: To be programmed
 
-
-
+		
 
     /// END: To be programmed
     return ret_val;
@@ -69,8 +68,19 @@ uint8_t scan_keypad_fast(void)
 /* internal functions definitions ------------------------------------------ */
 /// STUDENTS: To be programmed
 
-
-
+/*
+* config: 0 = input, 1 = output
+ */
+void pin_config(uint8_t config)
+{
+	hal_gpio_input_t input = {~config, HAL_GPIO_PUPD_UP};
+	hal_gpio_output_t output = { config,
+                               HAL_GPIO_PUPD_UP,
+                               HAL_GPIO_OUT_SPEED_2MHZ,
+                               HAL_GPIO_OUT_TYPE_PP };
+	hal_gpio_init_input(GPIOA, input);
+	hal_gpio_init_output(GPIOA, output);
+}
 
 /// END: To be programmed
 
