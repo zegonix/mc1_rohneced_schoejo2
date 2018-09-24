@@ -61,6 +61,7 @@ void disp_reg_new_value(uint8_t value)
 			disp_buf[i] = disp_buf[i+1];
 		}
 		disp_buf[NUM_OF_DIGITS-1] = value;
+		disp_update();
 
     /// END: To be programmed
 }

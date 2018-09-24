@@ -42,8 +42,7 @@ int32_t main(void)
     uint8_t prev_mode = 0;
     /// STUDENTS: To be programmed
 
-
-
+		uint8_t i;
 
     /// END: To be programmed
 
@@ -78,8 +77,25 @@ int32_t main(void)
          */
         /// STUDENTS: To be programmed        
 
-
-
+				mode = inout_switch_read();
+				switch (mode){
+					case 0x00:
+						// hardware test
+						for(i=0;i<8;i++)//8 number of 7 segments
+						{
+							disp_reg_new_value(8);
+						}
+						break;
+					case 0x01:
+						// number sequence
+						break;
+					case 0x02:
+						// col by col
+						break;
+					case 0x03:
+						// fast scan
+						break;
+				}
 
         /// END: To be programmed        
     }
