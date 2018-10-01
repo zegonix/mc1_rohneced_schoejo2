@@ -23,7 +23,6 @@
 
 
 
-
 /// END: To be programmed
 
 /* internal variable definitions ------------------------------------------- */
@@ -39,15 +38,20 @@ static const int key_array [4][4] = { { 0x1, 0x2, 0x3, 0xF },
 /* internal functions definitions ------------------------------------------ */
 /// STUDENTS: To be programmed
 /*
-* config: 0 = input, 1 = output
+ * config: 0 = input, 1 = output
  */
 void pin_config(reg_gpio_t *port, uint8_t config)
 {
-	hal_gpio_input_t input = {~config, HAL_GPIO_PUPD_UP};
-	hal_gpio_output_t output = { config,
-                               HAL_GPIO_PUPD_UP,
-                               HAL_GPIO_OUT_SPEED_2MHZ,
-                               HAL_GPIO_OUT_TYPE_PP };
+	hal_gpio_input_t input;
+	hal_gpio_output_t output;
+
+	input.pins = config;
+	input.pupd = HAL_GPIO_PUPD_UP;
+	output.pins = ~config;
+	output.pupd = HAL_GPIO_PUPD_UP;
+	output.out_speed = HAL_GPIO_OUT_SPEED_2MHZ;
+	output.out_type = HAL_GPIO_OUT_TYPE_PP;
+	
 	hal_gpio_init_input(port, input);
 	hal_gpio_init_output(port, output);
 }
@@ -96,10 +100,11 @@ uint8_t scan_keypad_fast(void)
 {
     uint8_t ret_val = NOKEY_PRESSED;
     /// STUDENTS: To be programmed
+/*
 		uint8_t in;
 		pin_config(GPIOB, 0x0f);
 		in = (uint8_t) hal_gpio_input_read(GPIOB);
-		
+*/
     /// END: To be programmed
     return ret_val;
 }

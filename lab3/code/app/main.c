@@ -99,6 +99,7 @@ int32_t main(void)
 							break;
 						case 0x02:
 							// col by col
+							disp_reg_new_value(scan_keypad_cbc());
 							break;
 						case 0x03:
 							// fast scan

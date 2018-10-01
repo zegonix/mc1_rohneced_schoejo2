@@ -57,10 +57,10 @@ void disp_reg_new_value(uint8_t value)
     /// STUDENTS: To be programmed
 
 		uint8_t i;
-		for (i = 0; i<(NUM_OF_DIGITS-1); i++){
-			disp_buf[i] = disp_buf[i+1];
+		for (i = NUM_OF_DIGITS; i>0; i--){
+			disp_buf[i-1] = disp_buf[i-2];
 		}
-		disp_buf[NUM_OF_DIGITS-1] = value;
+		disp_buf[0] = value;
 		disp_update();
 
     /// END: To be programmed
