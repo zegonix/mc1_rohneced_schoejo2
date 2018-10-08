@@ -43,7 +43,9 @@ int32_t main(void)
     /// STUDENTS: To be programmed
 
 		uint8_t i;
-
+		uint8_t read_value = 0xFF;
+		uint8_t prev_value = 0xFF;
+	
     /// END: To be programmed
 
     /* enable clock on GPIOA and GPIOB */
@@ -55,8 +57,9 @@ int32_t main(void)
 
 
     while (1) {
-			/*
+				prev_mode = mode;
         mode = inout_switch_read();
+			/*
         if (mode != prev_mode) {    // mode changed
             prev_mode = mode;
             disp_clear_buffer();
@@ -78,36 +81,51 @@ int32_t main(void)
          */
         /// STUDENTS: To be programmed        
 				
-				prev_mode = mode;
-				mode = inout_switch_read();
-				if(mode != prev_mode)
-				{
+	//			prev_mode = mode;
+		//		mode = inout_switch_read();
 					switch (mode){
 						case 0x00:
 							// hardware test
+							if (prev_mode != 0)
+							{
 							for(i=0;i<8;i++)//8 number of 7 segments
 							{
 								disp_reg_new_value(8);
 							}
+							}
 							break;
 						case 0x01:
 							// number sequence
+							if (prev_mode != 0x1)
+							{
 							for (i=0; i<8; i++)
 							{
 								disp_reg_new_value(i);
 							}
+							}
 							break;
 						case 0x02:
 							// col by col
-							disp_reg_new_value(scan_keypad_cbc());
+							prev_value = read_value;
+							read_value = scan_keypad_cbc();
+							if (read_value != 0xFF && read_value != prev_value)
+							{
+							disp_reg_new_value(read_value);
+							}
 							break;
 						case 0x03:
 							// fast scan
+							prev_value = read_value;
+							read_value = scan_keypad_fast();
+							if (read_value != 0xFF && read_value != prev_value)
+							{
+							disp_reg_new_value(read_value);
 							break;
 					}
-				}
-
+				
+				
         /// END: To be programmed        
     }
 
+	}
 }
