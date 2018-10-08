@@ -78,6 +78,7 @@ void disp_update(void)
 		{
 			uint16_t output = ((i<<8)+int2hex[disp_buf[i]]);
 			hal_gpio_output_write(GPIOA,output);
+			hal_gpio_output_write(GPIOA,output & ~(1<<11));
 			hal_gpio_output_write(GPIOA,output | (1<<11));
 		}
 

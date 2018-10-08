@@ -69,8 +69,6 @@ uint8_t scan_keypad_cbc(void)
 		// configure pins 0..3 as inputs and 4..7 as outputs
 		pin_config(GPIOB, 0xF0);
 		for (i = 0; i<4; i++){
-			//input_value = hal_gpio_output_read(GPIOB);
-			//input_value = input_value
 			hal_gpio_output_write(GPIOB, hal_gpio_output_read(GPIOB) & (~(1<<(4+i))));
 			in = (~(hal_gpio_input_read(GPIOB))) & 0x000F;
 			switch(in){
@@ -112,6 +110,7 @@ uint8_t scan_keypad_fast(void)
 		pin_config(GPIOB, 0xF0);
 		hal_gpio_output_write(GPIOB, 0x0);
 		cols = (uint8_t) ((~hal_gpio_input_read(GPIOB)) & 0xF);
+		hal_gpio_output_write(GPIOB, 0xF0);
 		switch(rows)
 		{
 			case 0x1:
@@ -149,7 +148,6 @@ uint8_t scan_keypad_fast(void)
 				break;
 		}
 		
-		hal_gpio_output_write(GPIOB, 0xF0);
 		ret_val = stuff == 0 ? key_array[rows][cols] : NOKEY_PRESSED;
     /// END: To be programmed
     return ret_val;

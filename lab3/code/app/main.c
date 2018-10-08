@@ -98,34 +98,34 @@ int32_t main(void)
 							// number sequence
 							if (prev_mode != 0x1)
 							{
-							for (i=0; i<8; i++)
-							{
-								disp_reg_new_value(i);
-							}
+								for (i=0; i<8; i++)
+								{
+									disp_reg_new_value(i);
+								}
 							}
 							break;
 						case 0x02:
 							// col by col
 							prev_value = read_value;
 							read_value = scan_keypad_cbc();
-							if (read_value != 0xFF && read_value != prev_value)
+							if (read_value != NOKEY_PRESSED && read_value != prev_value)
 							{
-							disp_reg_new_value(read_value);
+								disp_reg_new_value(read_value);
 							}
 							break;
 						case 0x03:
 							// fast scan
 							prev_value = read_value;
 							read_value = scan_keypad_fast();
-							if (read_value != 0xFF && read_value != prev_value)
+							if (read_value != NOKEY_PRESSED && read_value != prev_value)
 							{
-							disp_reg_new_value(read_value);
+								disp_reg_new_value(read_value);
+							}
 							break;
-					}
-				
+					}				
 				
         /// END: To be programmed        
     }
 
-	}
 }
+
