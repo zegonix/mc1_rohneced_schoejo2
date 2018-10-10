@@ -90,9 +90,23 @@ static void calculate_acc_average(int16_t *buffer, int16_t *result,
                                   uint16_t buffer_length)
 {
     /// STUDENTS: To be programmed
-
-
-
+		
+		uint16_t n;
+		int32_t sumX=0;
+		int32_t sumY=0;
+		int32_t sumZ=0;
+		for(n=0;n<buffer_length;n++)
+		{
+				if(n%3 == 0)
+					sumX += buffer[n];
+				if(n%3 == 1)
+					sumY += buffer[n];
+				if(n%3 == 2)
+					sumZ += buffer[n];
+		}
+		result[0]=(int16_t)(sumX*3/buffer_length);
+		result[1]=(int16_t)(sumY*3/buffer_length);
+		result[2]=(int16_t)(sumZ*3/buffer_length);
 
     /// END: To be programmed    
     return;

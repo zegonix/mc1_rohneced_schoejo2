@@ -56,6 +56,9 @@ void accelerometer_init(void)
 
     /// STUDENTS: To be programmed
 
+    write_reg(INT1_CTRL_ADD, 0x01);   		//Enable interrupt on Pad INT1, when accelerometer Data ready
+		write_reg(CTRL1_XL_ADD, 0x78);   			//Set output data rate to 833 Hz & 4g full scale
+		write_reg(CTRL3_C_ADD, 0x04);   			//Automatic increment
 
 
 
