@@ -245,9 +245,30 @@ static void init_dma(uint8_t *hal_tx_buffer, uint8_t *hal_rx_buffer,
     uint32_t irq = 56;
     hal_dma_init_t dma_settings;
     /// STUDENTS: To be programmed
+	
+		dma_settings.channel = HAL_DMA_CHANNEL_3;
+		dma_settings.direction = HAL_DMA_MEM_TO_PER;
+		dma_settings.source = (uint32_t) hal_tx_buffer;
+		dma_settings.destination = (uint32_t) &SPI1->DR;
+		dma_settings.size = HAL_DMA_SIZE_8B;
+		dma_settings.nr_transactions = length;
+		dma_settings.continous = FALSE;
+		dma_settings.increment = TRUE;
+	
+		// stream 3 for transmission
+		hal_dma_init_base(DMA2, HAL_DMA_STREAM_3, dma_settings);
+	
+		dma_settings.channel = HAL_DMA_CHANNEL_3;
+		dma_settings.direction = HAL_DMA_PER_TO_MEM;
+		dma_settings.source = (uint32_t) &SPI1->DR;
+		dma_settings.destination = (uint32_t) hal_rx_buffer;
+		dma_settings.size = HAL_DMA_SIZE_8B;
+		dma_settings.nr_transactions = length;
+		dma_settings.continous = FALSE;
+		dma_settings.increment = TRUE;		
 
-
-
+		// stream 0 for reception
+		hal_dma_init_base(DMA2, HAL_DMA_STREAM_0, dma_settings);
 
     /// END: To be programmed
 
