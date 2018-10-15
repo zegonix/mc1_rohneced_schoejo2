@@ -26,8 +26,10 @@
 
 /* -- Macros
  * ------------------------------------------------------------------------- */
-
-
+#define SLEEP_DEEP 0xFFFB
+#define LPDS 0x0001
+#define PDDS (~0x0002)//PDDS auf 0 setzen
+#define FPDS 0x0200
 
 /* -- Local function declarations
  * ------------------------------------------------------------------------- */
@@ -62,8 +64,9 @@ void power_enter_sleep(void)
      */
 
     /// STUDENTS: To be programmed
-
-
+		
+		SCB->SCR &=SLEEP_DEEP;
+		__asm volatile ("wfi");
 
 
     /// END: To be programmed
@@ -82,10 +85,13 @@ void power_enter_stop(void)
 
     /// STUDENTS: To be programmed
 
+		SCB->SCR |= ~SLEEP_DEEP;	
+		PWR->CR	|=LPDS;
+		PWR->CR	&=PDDS;
+		PWR->CR |=FPDS;
+		__asm volatile ("wfi");
 
-
-
-    /// END: To be programmed
+	/// END: To be programmed
 }
 
 

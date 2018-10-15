@@ -60,11 +60,11 @@ void button_init(void)
  */
 hal_bool_t did_button_get_pressed(void)
 {
-    hal_bool_t return_val = FALSE;
+    hal_bool_t return_val = button_pressed;
 
     /// STUDENTS: To be programmed
 
-
+		button_pressed = FALSE;
 
 
     /// END: To be programmed
@@ -78,7 +78,11 @@ hal_bool_t did_button_get_pressed(void)
 
 /// STUDENTS: To be programmed
 
-
+void EXTI0_IRQHandler(void)
+	{
+		button_pressed = TRUE;
+		hal_gpio_irq_clear(1);
+	}
 
 
 /// END: To be programmed
