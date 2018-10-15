@@ -98,7 +98,7 @@ typedef struct {
                                      refer to manual p.306ff. */
     hal_dma_size_t size;        /**< Size of data / register to transfer. */
     uint16_t nr_transactions;    /**< How many transaction, min. 1. */
-    hal_bool_t continous;       /**< See circular mode in maual p.310ff. */
+    hal_bool_t continous;       /**< See circular mode in manual p.310ff. */
     hal_bool_t increment;   /**< Increment memory-Pointer after a Transfer */
 } hal_dma_init_t;
 
