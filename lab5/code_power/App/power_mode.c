@@ -173,7 +173,9 @@ static void fill_init_structs(hal_rcc_pll_init_t *pll_init,
 
         /// STUDENTS: To be programmed
 
-
+				case CLOCK_120MHZ:
+						
+						break;
 
 
         /// END: To be programmed
