@@ -23,11 +23,11 @@
 #include "user_button.h"
 #include "wakeup_timer.h"
 
-#define CLOCK (CLOCK_168MHZ)
+#define CLOCK (CLOCK_60MHZ)
 
 /* Switch between task with FSM and task with wakeup_timer */
-const hal_bool_t use_wakeup_timer = FALSE;    // uncomment for FSM
-//const hal_bool_t use_wakeup_timer = TRUE;   // uncomment for wakeup_timer
+//const hal_bool_t use_wakeup_timer = FALSE;    // uncomment for FSM
+const hal_bool_t use_wakeup_timer = TRUE;   // uncomment for wakeup_timer
 
 /* States for Finite State Machine (FSM) */
 typedef enum {
@@ -112,7 +112,12 @@ int main(void)
 
         while (1) {
             /// STUDENTS: To be programmed 
-
+						output_set_green(ENABLE);
+            output_set_red(DISABLE);
+						work_hard();
+						output_set_green(DISABLE);
+						power_enter_stop();
+						power_set_clock(CLOCK);
 
 
 

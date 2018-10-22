@@ -54,10 +54,28 @@ void wakeup_init(void)
      */
 
     /// STUDENTS: To be programmed
+		
+			PWR->CR|=(1<<8); //DWP bit set
+			RTC->WPR=0xCA;
+			RTC->WPR=0x53;		//
+			RCC->BDCR|=(1<<9);
+			RCC->BDCR&=~(1<<8);
+			RCC->BDCR|=(1<<15);
 
-
-
-
+			RTC->CR&=~(1<<10);//disable wakup timer
+			while((RTC->ISR&(1<<2))==0){}
+			RTC->CR&=~(1<<2);
+			RTC->CR|=(3);
+			RTC->WUTR=1600;
+			RTC->CR|=(1<<14);//
+			RTC->ISR&=~(1<<10);
+			EXTI->RTSR|=(1<<22);
+			EXTI->IMR|=(1<<22);
+			NVIC->ISER[0]|=(1<<3);
+			RTC->CR|=(1<<10);//enable wakup timer
+			RTC->WPR=0xFF;
+			
+				
     /// END: To be programmed
 }
 
@@ -66,7 +84,11 @@ void wakeup_init(void)
 
 /// STUDENTS: To be programmed
 
-
+	void RTC_WKUP_IRQHandler(void)
+	{
+		RTC->ISR&=~(1<<10);
+		EXTI->PR|=(1<<22);
+	}
 
 
 /// END: To be programmed
