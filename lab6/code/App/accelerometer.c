@@ -75,8 +75,12 @@ static void init_fifo(void)
     /* Configure Sensor Register for FIFO */
     /// STUDENTS: To be programmed
 
-
-
+		write_reg(FIFO_CTRL1_ADD, 0x2C);
+		write_reg(FIFO_CTRL2_ADD, 0x01);
+		write_reg(FIFO_CTRL3_ADD, 0x01);
+		write_reg(FIFO_CTRL4_ADD, 0x00);
+		write_reg(FIFO_CTRL5_ADD, 0x31);
+		write_reg(INT1_CTRL_ADD, 0x08);
 
     /// END: To be programmed
 }
@@ -97,8 +101,8 @@ static void init_significant_motion(void)
 
     /// STUDENTS: To be programmed
 
-
-
+		write_reg(INT1_CTRL_ADD, 0x40);
+		write_reg(CTRL10_C_ADD, 0x05);
 
     /// END: To be programmed
 }
@@ -110,8 +114,21 @@ static void fifo_calculations(int16_t *acceleration)
 {
     /// STUDENTS: To be programmed
 
-
-
+    int16_t x = 0;
+    int16_t y = 0;
+    int16_t z = 0;		
+		int16_t n;
+	
+		for(n=0; n<((FIFO_DMA_TRANSACTIONS-1)/3/2); n++)
+		{
+			x = (uint16_t)((rx_buffer[2+6*n]<<8) + rx_buffer[1+6*n]);
+			y = (uint16_t)((rx_buffer[4+6*n]<<8) + rx_buffer[3+6*n]);
+			z = (uint16_t)((rx_buffer[6+6*n]<<8) + rx_buffer[5+6*n]);
+		
+			acceleration[3*n] = (x * MAX_G_FORCE / MAX_INTEGER_VAL) + X_OFFSET;
+			acceleration[3*n+1] = (y * MAX_G_FORCE / MAX_INTEGER_VAL) + Y_OFFSET;
+			acceleration[3*n+2] = (z * MAX_G_FORCE / MAX_INTEGER_VAL) + Z_OFFSET;
+		}
 
     /// END: To be programmed
 }

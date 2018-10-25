@@ -92,8 +92,12 @@ int main(void)
 
                 /// STUDENTS: To be programmed
 
-
-
+								if (data_ready > 0)
+								{
+									sample_nr = accelerometer_read_acceleration(acc_buffer, switch_position);
+									data_ready = 0;
+									calc_average_and_write_to_lcd(acc_buffer, acceleration, sample_nr);
+								}
 
                 /// END: To be programmed
 
@@ -229,7 +233,7 @@ static void calc_average_and_write_to_lcd(int16_t *acc_buffer,
  */
 static void enter_sleep(void)
 {
-    SCB->SCR |= (0x1 << 2u);
+    SCB->SCR |= (0x0 << 2u);
     __asm volatile ("wfi");
     power_set_clock();
 }
