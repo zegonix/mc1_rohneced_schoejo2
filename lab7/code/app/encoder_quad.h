@@ -39,8 +39,14 @@ void encoder_quad_init(void);
 
 /// STUDENTS: To be programmed
 
+typedef enum {
+	U6 = 0,
+	U5,
+	U4,
+	U3
+} sensor_mask;
 
-
-
+uint8_t getSensors(void);
+void resetSensors(void);
 /// END: To be programmed
 #endif

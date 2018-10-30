@@ -48,7 +48,7 @@
 #define RPM_MULTIPLIER       60 // constant to convert from seconds to minutes
 
 /// STUDENTS: To be programmed
-
+uint8_t sensors = 0;
 
 
 
@@ -57,8 +57,15 @@
 /* variables and functions with module wide scope ----------------------------*/
 
 /// STUDENTS: To be programmed
+uint8_t getSensors(void)
+{
+	return sensors;
+}
 
-
+void resetSensors(void)
+{
+	sensors = 0;
+}
 
 
 /// END: To be programmed
@@ -77,8 +84,7 @@ void encoder_quad_init()
 
     /// STUDENTS: To be programmed
 
-
-
+		hal_gpio_init_output
 
     /// END: To be programmed
 }
@@ -159,13 +165,13 @@ void EXTI9_5_IRQHandler(void)
 {
     // Reset interrupt flags
     if ((EXTI->IMR & EXTI_LINE8) && (EXTI->PR & EXTI_PR_PR8)) {
-        EXTI->PR |= EXTI_PR_PR8;
+        EXTI->PR |= EXTI_PR_PR8;//interrupt sensor u6
     }else if ((EXTI->IMR & EXTI_LINE9) && (EXTI->PR & EXTI_PR_PR9)) {
         EXTI->PR |= EXTI_PR_PR9;
     }
 
     /// STUDENTS: To be programmed
-
+	
 
 
 
@@ -181,9 +187,11 @@ void EXTI15_10_IRQHandler(void)
     // Reset interrupt flags
     if ((EXTI->IMR & EXTI_LINE10) && (EXTI->PR & EXTI_PR_PR10)) {
         EXTI->PR |= EXTI_PR_PR10;
+				sensors|=(1<<U6);
     }
     if ((EXTI->IMR & EXTI_LINE11) && (EXTI->PR & EXTI_PR_PR11)) {
         EXTI->PR |= EXTI_PR_PR11;
+				sensors|=(1<<U5);
     }
 
     // This task has not to be solved by the students.
