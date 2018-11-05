@@ -49,28 +49,28 @@ int main(void)
     //----------------------------------------------------
 
     /// STUDENTS: To be programmed
+
 		uint32_t counter=0;
 		char * temp;
-
-
 
     /// END: To be programmed
 
     // Initializes all components
-    init_components();
+
+		init_components();
 
     //----------------------------------------------------
     // Endless loop :
     //----------------------------------------------------
     while (1) {
         /// STUDENTS: To be programmed
-					if(getSensors()==(1<<U6))
-					{
-						counter++;
-						resetSensors();
-					}
-					sprintf(temp, "c:%d, n:%d", counter, counter>>4);
-					hal_ct_lcd_write(0, temp);
+				if(getSensors()==(1<<U6))
+				{
+					counter++;
+					resetSensors();
+				}
+				sprintf(temp, "c:%d, n:%d", counter, counter>>4);
+				hal_ct_lcd_write(0, temp);
 
         /// END: To be programmed
 
