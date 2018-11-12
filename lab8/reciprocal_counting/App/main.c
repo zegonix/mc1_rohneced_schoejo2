@@ -50,7 +50,8 @@ int main(void)
     /* local vars */
     /// STUDENTS: To be programmed
 
-
+		uint32_t freq =0;
+		uint32_t counter=0;
 
 
     /// END: To be programmed
@@ -71,8 +72,14 @@ int main(void)
         /* main loop */
       
         /// STUDENTS: To be programmed
-
-
+				
+				set_prescaler_freq_mul();
+				counter=get_capture_value();
+				if(counter !=0)
+				{
+					freq =COUNTER_CLOCK/counter;
+				}
+				write_freq_to_lcd(freq);
 
 
         /// END: To be programmed
