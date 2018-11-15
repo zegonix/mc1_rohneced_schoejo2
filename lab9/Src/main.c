@@ -70,6 +70,7 @@ static void calculate_acc_average(int16_t *buffer, int16_t *result,
 static void write_to_sd_card(int16_t *acceleration);
 static void write_raw_data_to_sd_card(int16_t *acceleration,
                                       uint16_t sample_nr);
+FIL fil;
 
 /* MAIN FUNCTION ----------------------------------------------------------- */
 int main(void)
@@ -79,9 +80,12 @@ int main(void)
     int16_t acc_buffer[MIN_NR_OF_SAMPLES * NR_OF_AXES];
     uint16_t sample_nr;             // Indicates how many sample(x,y,z value)
                                     // are currently in the buffer
+		FATFS fat;
+		char header[57] = "Sample Nr.;Acceleration X;Acceleration Y;Acceleration Z\n";
+		UINT nrOfBytes;
   
     /* MCU Configuration */
-	init_system();
+		init_system();
   
     /* if swtich S0 = 1 => save data directly form acc_buffer
        if switch S0 = 0 => save calculated average data */
@@ -97,15 +101,51 @@ int main(void)
        if mount returns FR_OK set led0 on else toggle led0 */
     /// STUDENTS: To be programmed
     
-    
+    if(f_mount(&fat, SDPath, 1) == FR_OK)
+		{
+			SET_LED0_ON;
+		} else {
+			while(1)
+			{
+				SET_LED0_ON;
+				HAL_Delay(500);
+				SET_LED0_OFF;
+				HAL_Delay(500);
+			}
+		}
     
     /// END: To be programmed    
     
     /* Exercise 2: Create file, if it exists overwrite it (FA_CREATE_ALWAYS).
        write into file the specified header line */
     /// STUDENTS: To be programmed
-    
-    
+   
+    if(f_open(&fil, my_path, (FA_CREATE_ALWAYS | FA_WRITE)) == FR_OK)
+		{
+			SET_LED1_ON;
+			f_write(&fil, header, sizeof(header), &nrOfBytes);
+			if (nrOfBytes != sizeof(header))
+			{
+				while(1)
+				{
+					SET_LED2_ON;
+					HAL_Delay(500);
+					SET_LED2_OFF;
+					HAL_Delay(500);
+				}
+			} else {
+				SET_LED2_ON;
+			}
+			f_close(&fil);
+		} else {
+			while(1)
+			{
+				SET_LED1_ON;
+				HAL_Delay(500);
+				SET_LED1_OFF;
+				HAL_Delay(500);
+			}
+		}
     
     /// END: To be programmed
 	
@@ -127,7 +167,12 @@ int main(void)
 
     /// STUDENTS: To be programmed
     
-    
+    f_mount(NULL, SDPath, 1);
+		free(&fat);
+		SET_LED0_OFF;
+		SET_LED1_OFF;
+		SET_LED2_OFF;
+		SET_LED3_OFF;
     
     /// END: To be programmed	
 	
@@ -169,8 +214,33 @@ static void calculate_acc_average(int16_t *buffer, int16_t *result,
 static void write_to_sd_card(int16_t *acceleration)
 {
     /// STUDENTS: To be programmed
-    
-    
+	
+    static uint16_t sampleNr = 0;
+		char buffer[32];
+		uint8_t length = 0;
+		UINT bytes = 0;
+	
+		if(f_open(&fil, my_path, (FA_OPEN_APPEND | FA_WRITE)) != FR_OK)
+		{
+			while(1)
+			{
+				SET_LED3_ON;
+				HAL_Delay(500);
+				SET_LED3_OFF;
+				HAL_Delay(500);
+			}
+		}
+		length = snprintf(buffer, sizeof(buffer), "%d;%d;%d;%d\n", sampleNr++, acceleration[0], acceleration[1], acceleration[2]);
+		if (length > sizeof(buffer))
+		{
+			while(1){}
+		}
+		f_write(&fil, buffer, length, &bytes);
+		if (length != bytes)
+		{
+			while(1){}
+		}
+		f_close(&fil);
     
     /// END: To be programmed
 }
@@ -183,8 +253,36 @@ static void write_to_sd_card(int16_t *acceleration)
 static void write_raw_data_to_sd_card(int16_t *acceleration, uint16_t sample_nr)
 {
     /// STUDENTS: To be programmed
-    
-    
+	
+		uint16_t i;
+ 		char buffer[32];
+		uint8_t length = 0;
+		UINT bytes = 0;
+   
+    if(f_open(&fil, my_path, (FA_OPEN_APPEND | FA_WRITE)) != FR_OK)
+		{
+			while(1)
+			{
+				SET_LED3_ON;
+				HAL_Delay(500);
+				SET_LED3_OFF;
+				HAL_Delay(500);
+			}
+		}
+		for (i = 0; i<sample_nr; i++)
+		{
+			length = snprintf(buffer, sizeof(buffer), "%d;%d;%d;%d\n", i, acceleration[3*i], acceleration[3*i+1], acceleration[3*i+2]);
+			if (length > sizeof(buffer))
+			{
+				while(1){}
+			}
+			f_write(&fil, buffer, length, &bytes);
+			if (length != bytes)
+			{
+				while(1){}
+			}
+		}
+		f_close(&fil);
     
     /// END: To be programmed
 }
