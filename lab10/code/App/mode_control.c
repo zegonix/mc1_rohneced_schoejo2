@@ -94,8 +94,9 @@ void mode_control_handle_event(void)
                 case T0_PRESSED:
                     /// STUDENTS: To be programmed
 
-
-
+										state= STATE_RELOAD_CTRL;
+										rl_ctrl_update_display();
+										//lcd_output_update();
 
                     /// END: To be programmed
                     break;
@@ -109,11 +110,18 @@ void mode_control_handle_event(void)
                     ;// no change
             }
             break;
-        
-        /// STUDENTS: To be programmed    
+				/// STUDENTS: To be programmed    
 
-
-
+				case STATE_RELOAD_CTRL: 
+						switch (event){
+							case T0_PRESSED:
+								state=STATE_EGG_TIMER;
+								lcd_output_update();
+							break;
+							default:
+								break;
+						}
+						break;
 
         /// END: To be programmed
             
