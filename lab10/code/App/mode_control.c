@@ -95,8 +95,8 @@ void mode_control_handle_event(void)
                     /// STUDENTS: To be programmed
 
 										state= STATE_RELOAD_CTRL;
+										seg7_register_get_output_callback(reload_get_output);
 										rl_ctrl_update_display();
-										//lcd_output_update();
 
                     /// END: To be programmed
                     break;
@@ -115,18 +115,41 @@ void mode_control_handle_event(void)
 				case STATE_RELOAD_CTRL: 
 						switch (event){
 							case T0_PRESSED:
-								state=STATE_EGG_TIMER;
-								lcd_output_update();
-							break;
+								state=STATE_STOP_WATCH;
+								sw_ctrl_update_display();
+								//seg7_register_get_output_callback(stop_watch_get_output);
+								break;
+							case T1_PRESSED:
+								rl_ctrl_put_queue(RLC_BUTTON_SELECT_EVENT);
+								break;
+							case T2_PRESSED:
+								rl_ctrl_put_queue(RLC_BUTTON_UP_EVENT);
+								break;
+							case T3_PRESSED:
+								rl_ctrl_put_queue(RLC_BUTTON_DOWN_EVENT);
+								break;
 							default:
 								break;
 						}
 						break;
+				case STATE_STOP_WATCH:
+					switch(event){
+						case T0_PRESSED:
+							state = STATE_EGG_TIMER;
+							seg7_register_get_output_callback(egg_timer_get_output);
+							lcd_output_update();
+							break;
+						case T1_PRESSED:
+							sw_ctrl_put_queue(SWC_BUTTON_EVENT);
+							break;
+					break;
 
         /// END: To be programmed
             
         default:
             ;// no change
+					break;
+				}
     }
 }
 

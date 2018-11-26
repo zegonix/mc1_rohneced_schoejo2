@@ -30,7 +30,64 @@
 
 /// STUDENTS: To be programmed
 
+typedef enum {
+	STATE_GO,
+	STATE_STOP,
+	STATE_RESET
+} sw_state_t;
 
+sw_state_t state = STATE_RESET;
+queue_t stop_watch_ctrl_queue;
 
+void sw_ctrl_handle_event(void)
+{
+	stop_watch_ctrl_events_t event = queue_dequeue(&stop_watch_ctrl_queue);
+	if(event == SWC_BUTTON_EVENT)
+	{
+		switch(state)
+		{
+			case STATE_GO:
+				state = STATE_STOP;
+				sw_ctrl_update_display();
+				break;
+			case STATE_STOP:
+				state = STATE_RESET;
+				sw_ctrl_update_display();
+				break;
+			case STATE_RESET:
+				state = STATE_GO;
+				sw_ctrl_update_display();
+				break;
+			default:
+				state = STATE_RESET;
+				sw_ctrl_update_display();
+				break;
+		}
+	}
+}
+
+void sw_ctrl_put_queue(stop_watch_ctrl_events_t event)
+{
+	queue_enqueue(&stop_watch_ctrl_queue, event);
+}
+
+void sw_ctrl_update_display(void)
+{
+	lcd_write(LCD_LINE_1, TEXT_LINE_1);
+	switch(state)
+	{
+		case STATE_GO:
+			lcd_write(LCD_LINE_2, TEXT_LINE_2_STOP);
+			break;
+		case STATE_STOP:
+			lcd_write(LCD_LINE_2, TEXT_LINE_2_RESET);
+			break;
+		case STATE_RESET:
+			lcd_write(LCD_LINE_2, TEXT_LINE_2_START);
+			break;
+		default:
+			break;
+	}
+}
 
 /// END: To be programmed
