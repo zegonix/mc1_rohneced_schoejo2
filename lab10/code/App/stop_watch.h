@@ -30,7 +30,7 @@
 /**
  *  \brief  Start stop watch.
  */
-void stop_watch_start(void);
+void stop_watch_start(void (*func_ptr)(void));
 
 /**
  *  \brief  Stop stop watch.

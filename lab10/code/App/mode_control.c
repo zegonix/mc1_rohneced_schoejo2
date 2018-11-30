@@ -68,8 +68,7 @@ void mode_control_init(void)
     // call button_count_init();
     /// STUDENTS: To be programmed
 
-
-
+		button_count_init();
 
     /// END: To be programmed
     
@@ -117,7 +116,7 @@ void mode_control_handle_event(void)
 							case T0_PRESSED:
 								state=STATE_STOP_WATCH;
 								sw_ctrl_update_display();
-								//seg7_register_get_output_callback(stop_watch_get_output);
+								seg7_register_get_output_callback(stop_watch_get_output);
 								break;
 							case T1_PRESSED:
 								rl_ctrl_put_queue(RLC_BUTTON_SELECT_EVENT);
@@ -135,13 +134,24 @@ void mode_control_handle_event(void)
 				case STATE_STOP_WATCH:
 					switch(event){
 						case T0_PRESSED:
-							state = STATE_EGG_TIMER;
-							seg7_register_get_output_callback(egg_timer_get_output);
-							lcd_output_update();
+							state = STATE_BUTTON_COUNT;
+							seg7_register_get_output_callback(button_count_get_output);
+							button_count_update_display();
 							break;
 						case T1_PRESSED:
 							sw_ctrl_put_queue(SWC_BUTTON_EVENT);
 							break;
+					}
+					break;
+						
+				case STATE_BUTTON_COUNT:
+					switch(event){
+						case T0_PRESSED:
+							state = STATE_EGG_TIMER;
+							seg7_register_get_output_callback(egg_timer_get_output);
+							lcd_output_update();
+							break;
+					}
 					break;
 
         /// END: To be programmed
@@ -149,7 +159,7 @@ void mode_control_handle_event(void)
         default:
             ;// no change
 					break;
-				}
+				
     }
 }
 

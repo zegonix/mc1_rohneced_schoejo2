@@ -38,7 +38,11 @@ typedef enum {
 
 sw_state_t state = STATE_RESET;
 queue_t stop_watch_ctrl_queue;
+static void sw_ctrl_called_on_finished(void);
 
+/**
+ *	control fsm for the stopwatch
+ */
 void sw_ctrl_handle_event(void)
 {
 	stop_watch_ctrl_events_t event = queue_dequeue(&stop_watch_ctrl_queue);
@@ -48,18 +52,22 @@ void sw_ctrl_handle_event(void)
 		{
 			case STATE_GO:
 				state = STATE_STOP;
+				stop_watch_stop();
 				sw_ctrl_update_display();
 				break;
 			case STATE_STOP:
 				state = STATE_RESET;
+				stop_watch_reset();
 				sw_ctrl_update_display();
 				break;
 			case STATE_RESET:
 				state = STATE_GO;
+				stop_watch_start(sw_ctrl_called_on_finished);
 				sw_ctrl_update_display();
 				break;
 			default:
 				state = STATE_RESET;
+				stop_watch_reset();
 				sw_ctrl_update_display();
 				break;
 		}
@@ -88,6 +96,13 @@ void sw_ctrl_update_display(void)
 		default:
 			break;
 	}
+}
+
+static void sw_ctrl_called_on_finished(void)
+{
+	stop_watch_stop();
+	state = STATE_STOP;
+	sw_ctrl_update_display();
 }
 
 /// END: To be programmed
