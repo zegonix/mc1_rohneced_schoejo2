@@ -32,7 +32,6 @@
 
 
 
-
 /// END: To be programmed
 
 
@@ -40,7 +39,6 @@
  * ------------------------------------------------------------------------- */
 
 /// STUDENTS: To be programmed
-
 
 
 
@@ -52,8 +50,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+void thread1(void const * argument);
+void thread2(void const * argument);
 
 /// END: To be programmed
 
@@ -63,8 +61,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(thread1, osPriorityNormal, 1, 0);
+osThreadDef(thread2, osPriorityNormal, 1, 0);
 
 /// END: To be programmed
 
@@ -111,8 +109,21 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
-
-
+void thread1(void const * argument)
+{
+	static uint8_t lastButton = 0;
+	uint8_t button;
+	
+	if (hal_gpio_input_read(GPIOA) & USER_BUTTON)
+	{
+		button = 1;
+	}
+	else
+	{
+		button = 0;
+	}
+	
+}
 
 /// END: To be programmed
 

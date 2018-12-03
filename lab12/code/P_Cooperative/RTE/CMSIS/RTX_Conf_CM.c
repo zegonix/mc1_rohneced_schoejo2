@@ -138,7 +138,7 @@
 //
 // <i> Enables Round-Robin Thread switching.
 #ifndef OS_ROBIN
- #define OS_ROBIN       0
+ #define OS_ROBIN       1
 #endif
  
 //   <o>Round-Robin Timeout [ticks] <1-1000>
@@ -154,7 +154,7 @@
 // ==============
 //   <i> Enables user Timers
 #ifndef OS_TIMERS
- #define OS_TIMERS      1
+ #define OS_TIMERS      0
 #endif
  
 //   <o>Timer Thread Priority

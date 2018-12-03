@@ -40,8 +40,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+void thread1 (void const * argument);
+void thread2 (void const * argument);
 
 /// END: To be programmed
 static void wait_blocking(uint32_t value);
@@ -52,8 +52,8 @@ static void wait_blocking(uint32_t value);
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(thread1, osPriorityNormal, 1, 0);
+osThreadDef(thread2, osPriorityNormal, 1, 0);
 
 /// END: To be programmed
 
@@ -81,8 +81,8 @@ void threads_init(void)
     
     /// STUDENTS: To be programmed      
 
-
-
+		osThreadCreate(osThread(thread1), NULL);
+		osThreadCreate(osThread(thread2), NULL);
 
     /// END: To be programmed
 }
@@ -93,8 +93,29 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
+void thread1 (void const * argument)
+{
+	while(1)
+	{
+		hal_gpio_bit_set(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_reset(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+		osThreadYield();
+	}
+}
 
-
+void thread2 (void const * argument)
+{
+	while(1)
+	{
+		hal_gpio_bit_set(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_reset(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		osThreadYield();
+	}
+}
 
 /// END: To be programmed
 

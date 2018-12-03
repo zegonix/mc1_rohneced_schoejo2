@@ -21,16 +21,16 @@
 
   <project>
     <PathAndName>.\P_Button\Button.uvprojx</PathAndName>
-  </project>
-
-  <project>
-    <PathAndName>.\P_UART\UART.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
     <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>
+    <PathAndName>.\P_UART\UART.uvprojx</PathAndName>
+  </project>
+
+  <project>
     <PathAndName>.\P_Sync\Sync.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
 </ProjectWorkspace>
