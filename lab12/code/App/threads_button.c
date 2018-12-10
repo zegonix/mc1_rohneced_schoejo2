@@ -30,7 +30,7 @@
 #define USER_BUTTON         (0x1 << 0u)
 /// STUDENTS: To be programmed
 
-
+#define FLAG 0x0001
 
 /// END: To be programmed
 
@@ -40,7 +40,7 @@
 
 /// STUDENTS: To be programmed
 
-
+static osThreadId idThread2;
 
 /// END: To be programmed
 
@@ -97,8 +97,8 @@ void threads_init(void)
     
     /// STUDENTS: To be programmed    
 
-
-
+		osThreadCreate(osThread(thread1), NULL);
+		idThread2 = osThreadCreate(osThread(thread2), NULL);
 
     /// END: To be programmed
 }
@@ -111,18 +111,27 @@ void threads_init(void)
 
 void thread1(void const * argument)
 {
-	static uint8_t lastButton = 0;
-	uint8_t button;
-	
-	if (hal_gpio_input_read(GPIOA) & USER_BUTTON)
+	while(1)
 	{
-		button = 1;
+		static uint8_t lastButton = 0;
+		uint8_t button = (uint8_t) (hal_gpio_input_read(GPIOA) & USER_BUTTON);
+		
+		if (button == 1 && lastButton == 0)
+		{
+			osSignalSet(idThread2, FLAG);
+		}
+		
+		lastButton = button;
 	}
-	else
+}
+
+void thread2(void const * argument)
+{
+	while(1)
 	{
-		button = 0;
+		hal_gpio_bit_toggle(GPIOG, LED_GREEN);
+		osSignalWait(FLAG, osWaitForever);
 	}
-	
 }
 
 /// END: To be programmed

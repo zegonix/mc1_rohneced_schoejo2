@@ -33,8 +33,7 @@
 
 /// STUDENTS: To be programmed
 
-
-
+osMutexId idMutex;
 
 /// END: To be programmed
 
@@ -50,8 +49,8 @@ static uint32_t count = 0u;
 
 /// STUDENTS: To be programmed
 
-
-
+void thread1(void const * argument);
+void thread2(void const * argument);
 
 /// END: To be programmed
 static void wait_blocking(uint32_t value);
@@ -62,8 +61,9 @@ static void wait_blocking(uint32_t value);
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(thread1, osPriorityNormal, 1, 0);
+osThreadDef(thread2, osPriorityNormal, 1, 0);
+osMutexDef(peter);
 
 /// END: To be programmed
 
@@ -80,9 +80,11 @@ void threads_init(void)
     
     /// STUDENTS: To be programmed    
 
+		osThreadCreate(osThread(thread1), NULL);
+		osThreadCreate(osThread(thread2), NULL);
 
-
-
+		idMutex = osMutexCreate(osMutex(peter));
+	
     /// END: To be programmed
 }
 
@@ -92,8 +94,27 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
+void thread1(void const * argument)
+{
+	while(1)
+	{
+		osMutexWait(idMutex, osWaitForever);
+		printf("thread1 says: %d \n\r", ++count);
+		osMutexRelease(idMutex);
+		wait_blocking(HALF_SECOND);
+	}
+}
 
-
+void thread2(void const * argument)
+{
+	while(1)
+	{
+		osMutexWait(idMutex, osWaitForever);
+		printf("thread2 says: %d \n\r", ++count);
+		osMutexRelease(idMutex);
+		wait_blocking(HALF_SECOND);
+	}
+}
 
 /// END: To be programmed
 
