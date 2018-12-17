@@ -1,0 +1,116 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Stephan Feurer InES Flex license: MDK-ARM Essential: 25 user(s) (mdk_essential) Support: Jan 2018
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Essential: 25 user(s)  Version: 5.24.1
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DARMCM1.DLL V1.18.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Dialog DLL:      TARMCM1.DLL V1.13.0.0
+ 
+<h2>Project:</h2>
+C:\Temp\lab13\code\Lab.uvprojx
+Project File Date:  12/15/2018
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+compiling main.c...
+compiling state_machine.c...
+compiling action_handler.c...
+assembling startup_ctboard.s...
+assembling datainit_ctboard.s...
+compiling timer.c...
+compiling event_handler.c...
+compiling system_ctboard.c...
+compiling hal_fmc.c...
+compiling hal_ct_lcd.c...
+compiling hal_gpio.c...
+compiling hal_pwr.c...
+compiling hal_rcc.c...
+compiling hal_timer.c...
+linking...
+Program Size: Code=5320 RO-data=428 RW-data=12 ZI-data=8196  
+".\build\Lab_3.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: InES
+                https://ennis.zhaw.ch/pack/InES.CTBoard14_DFP.4.0.0.pack
+                InES.CTBoard14_DFP.4.0.0
+                CT Board 14 (STM32F429ZI) Device Support
+   * Component: TIMER Version: 4.0.0
+   * Component: RCC Version: 3.0.1
+   * Component: PWR Version: 2.2.0
+   * Component: GPIO Version: 3.0.3
+   * Component: FMC Version: 3.0.1
+   * Component: LCD Version: 3.0.3
+   * Component: Startup Version: 3.0.5
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_Target_1
+  C:\Keil_v5\ARM\PACK\InES\CTBoard14_DFP\4.0.0\Device\Include
+  C:\Keil_v5\ARM\PACK\InES\CTBoard14_DFP\4.0.0\Device\Include\m0
+  C:\Keil_v5\ARM\PACK\InES\CTBoard14_DFP\4.0.0\HAL\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: InES::HAL:TIMER:4.0.0
+      Source file:   HAL\Source\hal_timer.c
+      Include file:  HAL\Include\hal_common.h
+      Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  HAL\Include\hal_timer.h
+
+   * Component: InES::HAL:RCC:3.0.1
+      Include file:  HAL\Include\hal_common.h
+      Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  HAL\Include\hal_rcc.h
+      Source file:   HAL\Source\hal_rcc.c
+
+   * Component: InES::HAL:PWR:2.2.0
+      Include file:  HAL\Include\hal_pwr.h
+      Source file:   HAL\Source\hal_pwr.c
+      Include file:  HAL\Include\hal_common.h
+      Include file:  Device\Include\reg_stm32f4xx.h
+
+   * Component: InES::HAL:GPIO:3.0.3
+      Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  HAL\Include\hal_common.h
+      Include file:  HAL\Include\hal_gpio.h
+      Source file:   HAL\Source\hal_gpio.c
+
+   * Component: InES::HAL:FMC:3.0.1
+      Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  HAL\Include\hal_fmc.h
+      Include file:  HAL\Include\hal_common.h
+      Source file:   HAL\Source\hal_fmc.c
+
+   * Component: InES::HAL:CT Board:LCD:3.0.3
+      Include file:  Device\Include\reg_ctboard.h
+      Include file:  HAL\Include\hal_ct_lcd.h
+      Source file:   HAL\Source\hal_ct_lcd.c
+
+   * Component: InES::Device:Startup:3.0.5
+      Source file:   Device\Source\system_ctboard.c
+      Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  Device\Include\reg_ctboard.h
+      Source file:   Device\Source\datainit_ctboard.s
+      Source file:   Device\Source\startup_ctboard.s
+      Include file:  Device\Include\system_ctboard.h
+      Include file:  Device\Include\m0\platform_ctboard.h
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>
